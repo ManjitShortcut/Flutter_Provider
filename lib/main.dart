@@ -3,16 +3,27 @@ import 'package:productapp/BusinessObect/ProductList.dart';
 import 'package:provider/provider.dart';
 import './widget/ProductDetail.dart';
 import './widget/ProductListGridView.dart';
+import './BusinessObect/ShoppingList.dart';
+import './widget/BadgeCount.dart';
+import './widget/ShoppingDetail.dart';
 
 void main() => runApp(MyApp());
 enum FilterOption { FilterOptionFav, FilterOptionAll }
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) =>
-          ProductList(), // when you are using creating new object instance the user provider.create
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => ProductList(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => ShoppingList(),
+        ),
+      ],
+      // when you are using creating new object instance the user provider.create
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -21,6 +32,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (ctx) => HomePage(),
           ProductDetail.routeName: (ctx) => ProductDetail(),
+          ShoppingDetail.routeName: (ctx) => ShoppingDetail(),
         },
       ),
     );
@@ -34,8 +46,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool favorite = false;
+  void shoppingCartClick() {
+    Navigator.of(context).pushNamed(ShoppingDetail.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("  uild contex method again call");
+    // Provider.of<ProductList>(context, listen: false);
+    //Provider.of<ShoppingList>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.amberAccent,
       appBar: AppBar(
@@ -44,11 +63,11 @@ class _HomePageState extends State<HomePage> {
           PopupMenuButton(
             onSelected: (FilterOption selectedValue) {
               setState(() {
-              if (selectedValue == FilterOption.FilterOptionFav) {
-                favorite = true;
-              } else {
-                favorite = false;
-              }
+                if (selectedValue == FilterOption.FilterOptionFav) {
+                  favorite = true;
+                } else {
+                  favorite = false;
+                }
               });
             },
             icon: Icon(Icons.more_vert),
@@ -59,6 +78,10 @@ class _HomePageState extends State<HomePage> {
               PopupMenuItem(
                   child: Text("Show All"), value: FilterOption.FilterOptionAll),
             ],
+          ),
+          Consumer<ShoppingList>(
+            builder: (ctx, shoppinglist, child) =>
+                BadgeCount(shoppinglist.shoppingCount,shoppingCartClick),
           ),
         ],
       ),
