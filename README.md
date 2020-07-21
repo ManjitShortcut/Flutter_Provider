@@ -79,10 +79,10 @@
  You will get the value through out the child class
 
 ## Delete Cell Using swipe function
-  ## Widget name : Dismissible
-   ## Syntax
+## Widget name : Dismissible
+## Syntax
           ```
-Dismissible(
+       Dismissible(
       key: ValueKey(item.product.id), // key which item will delete
       direction: DismissDirection.endToStart, // right to left
       onDismissed: (direction) { // function execute while delete the item
