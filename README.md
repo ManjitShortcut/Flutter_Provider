@@ -60,8 +60,48 @@
       ChangeNotifierProvider(create:(ctx) => AllocatedObject();
       ChangeNotifierProvider.Value(value: ReferenceOf the object
       ```
+## MultiProvider 
+ You can use multiplrovide through out the pogram 
+   ## Syntax
+      ```
+   Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => ProductList(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => ShoppingList(),
+        ),
+      ],
+        ```   
 
-      
+ You will get the value through out the child class
+
+## Delete Cell Using swipe function
+  ## Widget name : Dismissible
+   ## Syntax
+          ```
+Dismissible(
+      key: ValueKey(item.product.id), // key which item will delete
+      direction: DismissDirection.endToStart, // right to left
+      onDismissed: (direction) { // function execute while delete the item
+      },
+      background: Container(
+        color: Colors.blueAccent,
+        child: Icon(
+          Icons.delete,
+          color: Colors.black,
+          size: 40,
+        ),
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.only(right: 20),
+        margin: EdgeInsets.only(left: 10, right: 5, top: 2),
+      )
+      ```
+
+
+
 
      
   
